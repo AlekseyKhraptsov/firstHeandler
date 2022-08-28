@@ -17,9 +17,15 @@ func main() {
 	mux.HandleFunc("/friends/{id:[0-9]+}", srv.GetFriends)
 	mux.HandleFunc("/{user_id:[0-9]+}", srv.Put)
 
-	//my handler for debug
 	mux.HandleFunc("/get_all", srv.GetAll)
 	mux.HandleFunc("/get/{user_id:[0-9]+}", srv.GetUserInfo)
 
-	http.ListenAndServe("localhost:8080", mux)
+	go func() {
+		http.ListenAndServe("localhost:8080", mux)
+	}()
+	go func() {
+		http.ListenAndServe("localhost:8081", mux)
+	}()
+	select {}
+
 }
