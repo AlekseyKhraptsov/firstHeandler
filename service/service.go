@@ -10,8 +10,6 @@ import (
 	"strconv"
 )
 
-//var GlobalId int
-
 type Service struct {
 	Store map[string]*storage.User
 }
@@ -53,14 +51,8 @@ func (s *Service) Create(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		s.Store[u.Name] = u
-		for _, v := range s.Store {
-			if v.ID == len(s.Store)-1 {
-				v.ID++
-				u.ID = v.ID
-			}
-		}
-		//GlobalId += 1
-		//u.ID = GlobalId //костылёк с ID
+
+		u.ID = len(s.Store)
 
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
